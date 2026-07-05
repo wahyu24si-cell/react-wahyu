@@ -53,14 +53,14 @@ function SidebarMenuItem({ id, label, isActive, removable, onClick, onRemove }) 
      * Mengembalikan path yang sesuai untuk Link
      */
     function getMenuPath(menuId) {
-        if (menuId === "dashboard") return "/";
-        if (menuId === "orders") return "/orders";
-        if (menuId === "customers") return "/customers";
-        if (menuId === "products") return "/products";
-        if (menuId === "promotions") return "/promotions";
-        if (menuId === "reports") return "/reports";
-        if (menuId === "components") return "/components";
-        return "/";
+        if (menuId === "dashboard")  return "/admin";
+        if (menuId === "orders")     return "/admin/orders";
+        if (menuId === "customers")  return "/admin/customers";
+        if (menuId === "products")   return "/admin/products";
+        if (menuId === "promotions") return "/admin/promotions";
+        if (menuId === "reports")    return "/admin/reports";
+        if (menuId === "components") return "/admin/components";
+        return "/admin";
     }
 
     return (

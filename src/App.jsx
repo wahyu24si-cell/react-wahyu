@@ -1,6 +1,7 @@
 import React, { Suspense, useState, useMemo } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
+import ProtectedRoute from "./components/ProtectedRoute";
 // import Orders from "./pages/Main/Orders";
 // import MainLayout from "./layout/MainLayout";
 // import Dashboard from "./pages/Main/Dashboard";
@@ -24,6 +25,13 @@ const ReportDetail = React.lazy(() => import("./pages/Main/ReportDetail"));
 const UIComponents = React.lazy(() => import("./pages/Main/Components"));
 const GuestPage = React.lazy(() => import("./pages/Guest/GuestPage"));
 const MemberPage = React.lazy(() => import("./pages/Main/Member"));
+const LandingPage = React.lazy(() => import("./pages/Landing/LandingPage"));
+const MemberLayout    = React.lazy(() => import("./layout/MemberLayout"));
+const MemberHome      = React.lazy(() => import("./pages/Member/MemberHome"));
+const MemberPesanan   = React.lazy(() => import("./pages/Member/MemberPesanan"));
+const MemberPromo     = React.lazy(() => import("./pages/Member/MemberPromo"));
+const MemberProfil    = React.lazy(() => import("./pages/Member/MemberProfil"));
+const AdminDebug      = React.lazy(() => import("./pages/Main/AdminDebug"));
 const NotFound = React.lazy(() => import("./pages/Main/NotFound"));
 const AuthLayout = React.lazy(() => import("./layout/AuthLayout"));
 const Login = React.lazy(() => import("./pages/Auth/Login"));
@@ -109,11 +117,27 @@ function getNextId(items) {
  */
 export default function App() {
     const location = useLocation();
-    const isAuthPage = ["/login", "/register", "/forgot"].includes(location.pathname);
-    const isGuestPage = location.pathname === "/guest";
+    const isAuthPage    = ["/login", "/register", "/forgot"].includes(location.pathname);
+    const isGuestPage   = location.pathname === "/guest";
+    const isLandingPage = location.pathname === "/" || location.pathname === "/landing";
+    const isMemberArea  = location.pathname.startsWith("/member");
+    const isAdminArea   = location.pathname.startsWith("/admin");
 
-    // State untuk menu yang sedang aktif (untuk styling di sidebar)
-    const [activeSection, setActiveSection] = useState("dashboard");
+    // Sinkronkan activeSection dari URL path
+    const sectionFromPath = (() => {
+        const p = location.pathname;
+        if (p === "/admin" || p === "/admin/") return "dashboard";
+        if (p.startsWith("/admin/orders"))     return "orders";
+        if (p.startsWith("/admin/customers"))  return "customers";
+        if (p.startsWith("/admin/products"))   return "products";
+        if (p.startsWith("/admin/promotions")) return "promotions";
+        if (p.startsWith("/admin/reports"))    return "reports";
+        if (p.startsWith("/admin/components")) return "components";
+        return "dashboard";
+    })();
+
+    // State untuk menu yang sedang aktif — disinkronkan dari URL
+    const [activeSection, setActiveSection] = useState(sectionFromPath);
     // State untuk menyimpan nilai input search
     const [searchQuery, setSearchQuery] = useState("");
     // State untuk menyimpan daftar menu di sidebar
@@ -307,6 +331,51 @@ export default function App() {
         ]);
     }
 
+    // ── Edit Order ──
+    function handleEditOrder(payload) {
+        setOrdersData((prev) =>
+            prev.map((o) =>
+                o.id === payload.id
+                    ? {
+                        ...o,
+                        customer: payload.customer.trim(),
+                        item: payload.item.trim(),
+                        total: formatRupiah(parseRupiah(payload.total)),
+                        status: payload.status,
+                    }
+                    : o
+            )
+        );
+    }
+
+    // ── Delete Order ──
+    function handleDeleteOrder(id) {
+        setOrdersData((prev) => prev.filter((o) => o.id !== id));
+    }
+
+    // ── Edit Customer ──
+    function handleEditCustomer(payload) {
+        setCustomersData((prev) =>
+            prev.map((c) =>
+                c.id === payload.id
+                    ? {
+                        ...c,
+                        name: payload.name.trim(),
+                        email: payload.email.trim(),
+                        city: payload.city.trim(),
+                        totalOrder: Number(payload.totalOrder || 0),
+                        tier: payload.tier,
+                    }
+                    : c
+            )
+        );
+    }
+
+    // ── Delete Customer ──
+    function handleDeleteCustomer(id) {
+        setCustomersData((prev) => prev.filter((c) => c.id !== id));
+    }
+
     /**
      * handleRemoveMenu - Menghapus menu dari sidebar
      * Hanya menu dengan removable=true yang boleh dihapus
@@ -332,45 +401,25 @@ export default function App() {
         });
     }
 
-    /**
-     * pageTitle - Menentukan judul halaman sesuai route yang aktif
-     */
-    const pageTitle =
-        activeSection === "orders"
-            ? "Orders"
-            : activeSection === "customers"
-                ? "Customers"
-                : activeSection === "products"
-                    ? "Products"
-                    : activeSection === "promotions"
-                        ? "Promotions"
-                        : activeSection === "reports"
-                            ? "Reports"
-                            : activeSection === "components"
-                                ? "UI Components"
-                                : activeSection === "member"
-                                    ? "Member"
-                                    : "Dashboard";
+    const pageTitle = {
+        orders:     "Orders",
+        customers:  "Customers",
+        products:   "Products",
+        promotions: "Promotions",
+        reports:    "Reports",
+        components: "UI Components",
+        dashboard:  "Dashboard",
+    }[sectionFromPath] ?? "Dashboard";
 
-    /**
-     * pageBreadcrumb - Menentukan breadcrumb sesuai route yang aktif
-     */
-    const pageBreadcrumb =
-        activeSection === "orders"
-            ? "Home / Orders / Order List"
-            : activeSection === "customers"
-                ? "Home / Customers / Customer List"
-                : activeSection === "products"
-                    ? "Home / Products / Product List"
-                    : activeSection === "promotions"
-                        ? "Home / Promotions / Promotion List"
-                        : activeSection === "reports"
-                            ? "Home / Reports / Sales Report"
-                            : activeSection === "components"
-                                ? "Home / UI Components / Showcase"
-                                : activeSection === "member"
-                                    ? "Home / Member / Dashboard"
-                                    : "Home / Home Detail / Home Very Detail";
+    const pageBreadcrumb = {
+        orders:     "Home / Orders / Order List",
+        customers:  "Home / Customers / Customer List",
+        products:   "Home / Products / Product List",
+        promotions: "Home / Promotions / Promotion List",
+        reports:    "Home / Reports / Sales Report",
+        components: "Home / UI Components / Showcase",
+        dashboard:  "Home / Dashboard",
+    }[sectionFromPath] ?? "Home / Dashboard";
 
     // Mengecek apakah data kosong untuk menampilkan pesan empty state
     const isDashboardEmpty = filteredDashboardCards.length === 0;
@@ -402,124 +451,90 @@ export default function App() {
         );
     }
 
-    return (
-       <Suspense fallback={<Loading />}>
-            <MainLayout
-                activeSection={activeSection}
-                menuItems={filteredMenuItems}
-                onMenuClick={handleSectionChange}
-                onAddMenu={handleAddMenu}
-                onRemoveMenu={handleRemoveMenu}
-                searchValue={searchQuery}
-                onSearchChange={handleSearchChange}
-                pageTitle={pageTitle}
-                pageBreadcrumb={pageBreadcrumb}
-            >
+    if (isLandingPage) {
+        return (
+            <Suspense fallback={<Loading />}>
                 <Routes>
-                    <Route
-                        path="/"
-                        element={
-                            <Dashboard
-                                activeSection={activeSection}
-                                cards={filteredDashboardCards}
-                                orders={filteredOrders}
-                                customers={filteredCustomers}
-                                onAddOrder={handleAddOrder}
-                                onAddCustomer={handleAddCustomer}
-                                searchQuery={searchQuery}
-                                isEmpty={isDashboardEmpty}
-                                isOrdersEmpty={isOrdersEmpty}
-                                isCustomersEmpty={isCustomersEmpty}
-                            />
-                        }
-                    />
-
-                    {/* Kode sebelumnya (disimpan sebagai komentar, tidak dihapus):
-                    <Route
-                        path="/"
-                        element={
-                            <Dashboard
-                                activeSection={activeSection}
-                                cards={filteredDashboardCards}
-                                orders={filteredOrders}
-                                customers={filteredCustomers}
-                                onAddOrder={handleAddOrder}
-                                onAddCustomer={handleAddCustomer}
-                                searchQuery={searchQuery}
-                                isEmpty={isDashboardEmpty}
-                                isOrdersEmpty={isOrdersEmpty}
-                                isCustomersEmpty={isCustomersEmpty}
-                            />
-                        }
-                    />
-                    */}
-
-                    <Route
-                        path="/orders"
-                        element={
-                            <Orders
-                                orders={filteredOrders}
-                                onAddOrder={handleAddOrder}
-                                isEmpty={isOrdersEmpty}
-                            />
-                        }
-                    />
-
-                    <Route
-                        path="/customers"
-                        element={
-                            <Customers
-                                customers={filteredCustomers}
-                                onAddCustomer={handleAddCustomer}
-                                isEmpty={isCustomersEmpty}
-                            />
-                        }
-                    />
-
-                    <Route
-                        path="/products/:id"
-                        element={
-                            <ProductDetail />
-                        }
-                    />
-
-                    <Route
-                        path="/products"
-                        element={
-                            <Products isEmpty={false} />
-                        }
-                    />
-
-                    <Route
-                        path="/promotions"
-                        element={<Promotions />}
-                    />
-
-                    <Route
-                        path="/promotions/:id"
-                        element={<PromotionDetail />}
-                    />
-
-                    <Route
-                        path="/reports"
-                        element={<Reports />}
-                    />
-
-                    <Route
-                        path="/reports/:id"
-                        element={<ReportDetail />}
-                    />
-
-                    <Route
-                        path="/components"
-                        element={<UIComponents />}
-                    />
-
-                    <Route path="/member" element={<MemberPage />} />
-
-                    <Route path="*" element={<NotFound />} />
+                    <Route path="/"        element={<LandingPage />} />
+                    <Route path="/landing" element={<LandingPage />} />
                 </Routes>
-            </MainLayout>
+            </Suspense>
+        );
+    }
+
+    // ── Area Member ──
+    if (isMemberArea) {
+        return (
+            <Suspense fallback={<Loading />}>
+                <ProtectedRoute role="member">
+                    <MemberLayout>
+                        <Routes>
+                            <Route path="/member"         element={<MemberHome />} />
+                            <Route path="/member/pesanan" element={<MemberPesanan />} />
+                            <Route path="/member/promo"   element={<MemberPromo />} />
+                            <Route path="/member/profil"  element={<MemberProfil />} />
+                        </Routes>
+                    </MemberLayout>
+                </ProtectedRoute>
+            </Suspense>
+        );
+    }
+
+    // ── Area Admin ──
+    if (isAdminArea) {
+    return (
+        <Suspense fallback={<Loading />}>
+            <ProtectedRoute role="admin">
+                <MainLayout
+                    activeSection={activeSection}
+                    menuItems={filteredMenuItems}
+                    onMenuClick={handleSectionChange}
+                    onAddMenu={handleAddMenu}
+                    onRemoveMenu={handleRemoveMenu}
+                    searchValue={searchQuery}
+                    onSearchChange={handleSearchChange}
+                    pageTitle={pageTitle}
+                    pageBreadcrumb={pageBreadcrumb}
+                >
+                    <Routes>
+                        <Route path="/admin" element={
+                            <Dashboard
+                                activeSection={activeSection}
+                                cards={filteredDashboardCards}
+                                orders={filteredOrders}
+                                customers={filteredCustomers}
+                                onAddOrder={handleAddOrder}
+                                onAddCustomer={handleAddCustomer}
+                                searchQuery={searchQuery}
+                                isEmpty={isDashboardEmpty}
+                                isOrdersEmpty={isOrdersEmpty}
+                                isCustomersEmpty={isCustomersEmpty}
+                            />
+                        } />
+                        <Route path="/admin/orders"          element={<Orders orders={filteredOrders} onAddOrder={handleAddOrder} onEditOrder={handleEditOrder} onDeleteOrder={handleDeleteOrder} isEmpty={isOrdersEmpty} />} />
+                        <Route path="/admin/customers"       element={<Customers customers={filteredCustomers} onAddCustomer={handleAddCustomer} onEditCustomer={handleEditCustomer} onDeleteCustomer={handleDeleteCustomer} isEmpty={isCustomersEmpty} />} />
+                        <Route path="/admin/products/:id"    element={<ProductDetail />} />
+                        <Route path="/admin/products"        element={<Products isEmpty={false} />} />
+                        <Route path="/admin/promotions/:id"  element={<PromotionDetail />} />
+                        <Route path="/admin/promotions"      element={<Promotions />} />
+                        <Route path="/admin/reports/:id"     element={<ReportDetail />} />
+                        <Route path="/admin/reports"         element={<Reports />} />
+                        <Route path="/admin/components"      element={<UIComponents />} />
+                        <Route path="/admin/debug"           element={<AdminDebug />} />
+                        <Route path="*"                      element={<NotFound />} />
+                    </Routes>
+                </MainLayout>
+            </ProtectedRoute>
+        </Suspense>
+    );
+    }
+
+    // ── Fallback: 404 ──
+    return (
+        <Suspense fallback={<Loading />}>
+            <Routes>
+                <Route path="*" element={<NotFound />} />
+            </Routes>
         </Suspense>
     );
 }

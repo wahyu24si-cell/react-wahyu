@@ -1,162 +1,131 @@
 import { useState } from "react";
-import PageHeader from "../../components/PageHeader";
+
+const STATUS_COLORS = {
+    "Delivered":   "#10b981",
+    "On Delivery": "#3b82f6",
+    "Preparing":   "#f59e0b",
+    "Canceled":    "#ef4444",
+};
 
 /**
- * Orders Component - Halaman untuk menampilkan dan menambah data orders
- * 
- * Fitur:
- * - Menampilkan daftar orders dalam bentuk tabel
- * - Form untuk menambah order baru
- * - Search filtering untuk mencari orders
- * 
- * @param {Array} orders - Daftar orders yang akan ditampilkan
- * @param {function} onAddOrder - Callback untuk menambah order baru
- * @param {boolean} isEmpty - Status apakah daftar orders kosong (saat search)
+ * Orders — Admin CRUD: Create, Read, Update (status+data), Delete
  */
-export default function Orders({ orders, onAddOrder, isEmpty }) {
-    // State untuk menyimpan nilai input form order
-    const [orderForm, setOrderForm] = useState({
-        customer: "",
-        item: "",
-        total: "",
-        status: "Preparing",
-    });
+export default function Orders({ orders, onAddOrder, onEditOrder, onDeleteOrder, isEmpty }) {
+    const [form, setForm] = useState({ customer: "", item: "", total: "", status: "Preparing" });
+    const [editId, setEditId]   = useState(null);
+    const [search, setSearch]   = useState("");
+    const [confirm, setConfirm] = useState(null); // id yang akan dihapus
 
-    /**
-     * getOrderStatusClass - Menentukan class CSS berdasarkan status order
-     * Setiap status memiliki styling yang berbeda untuk keperluan visual
-     * @param {string} status - Status dari order (Preparing, On Delivery, Delivered, Canceled)
-     * @returns {string} CSS class untuk styling status badge
-     */
-    function getOrderStatusClass(status) {
-        if (status === "Delivered") return "order-status delivered";
-        if (status === "On Delivery") return "order-status on-delivery";
-        if (status === "Preparing") return "order-status preparing";
-        return "order-status canceled";
+    const filtered = search.trim()
+        ? orders.filter(o => [o.id, o.customer, o.item, o.status].join(" ").toLowerCase().includes(search.toLowerCase()))
+        : orders;
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        if (!form.customer.trim() || !form.item.trim() || !form.total.trim()) {
+            alert("Isi semua field yang wajib"); return;
+        }
+        if (editId) {
+            onEditOrder?.({ ...form, id: editId });
+            setEditId(null);
+        } else {
+            onAddOrder(form);
+        }
+        setForm({ customer: "", item: "", total: "", status: "Preparing" });
     }
 
-    /**
-     * handleSubmitOrder - Menangani submit form order baru
-     * Melakukan validasi data sebelum memanggil callback onAddOrder
-     * Mengembalikan form ke state awal setelah submit berhasil
-     * @param {Event} event - Event dari form submission
-     */
-    function handleSubmitOrder(event) {
-        event.preventDefault();
+    function startEdit(order) {
+        setEditId(order.id);
+        setForm({ customer: order.customer, item: order.item, total: order.total.replace(/[^0-9]/g, ""), status: order.status });
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
-        // Validasi: semua field harus terisi
-        if (!orderForm.customer.trim() || !orderForm.item.trim() || !orderForm.total.trim()) {
-            alert("Silakan isi semua field yang wajib");
-            return;
-        }
-
-        // Panggil callback untuk menambah order
-        onAddOrder(orderForm);
-
-        // Reset form ke state awal
-        setOrderForm({
-            customer: "",
-            item: "",
-            total: "",
-            status: "Preparing",
-        });
+    function cancelEdit() {
+        setEditId(null);
+        setForm({ customer: "", item: "", total: "", status: "Preparing" });
     }
 
     return (
         <div id="dashboard-container">
-            <div className="panel-card">
-                {/* Judul Panel */}
-                <div className="panel-title">Recent Orders</div>
-
-                {/* Form untuk menambah order baru */}
-                <form className="quick-add-form" onSubmit={handleSubmitOrder} noValidate>
-                    {/* Input nama customer */}
-                    <input
-                        type="text"
-                        placeholder="Customer name"
-                        aria-label="Customer name"
-                        value={orderForm.customer}
-                        onChange={(event) =>
-                            setOrderForm((current) => ({ ...current, customer: event.target.value }))
-                        }
-                        required
-                    />
-
-                    {/* Input menu item */}
-                    <input
-                        type="text"
-                        placeholder="Menu item"
-                        aria-label="Menu item"
-                        value={orderForm.item}
-                        onChange={(event) =>
-                            setOrderForm((current) => ({ ...current, item: event.target.value }))
-                        }
-                        required
-                    />
-
-                    {/* Input total harga (dalam angka) */}
-                    <input
-                        type="text"
-                        placeholder="Total (contoh: 78000)"
-                        aria-label="Total"
-                        value={orderForm.total}
-                        onChange={(event) =>
-                            setOrderForm((current) => ({ ...current, total: event.target.value }))
-                        }
-                        required
-                    />
-
-                    {/* Dropdown untuk memilih status order */}
-                    <select
-                        aria-label="Order status"
-                        value={orderForm.status}
-                        onChange={(event) =>
-                            setOrderForm((current) => ({ ...current, status: event.target.value }))
-                        }
-                    >
+            {/* ── FORM CREATE / EDIT ── */}
+            <div className="panel-card" style={{ marginBottom: "20px" }}>
+                <div className="panel-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <span>{editId ? "✏️ Edit Order" : "➕ Tambah Order"}</span>
+                    {editId && (
+                        <button type="button" onClick={cancelEdit}
+                            style={{ fontSize: "12px", color: "#888", background: "none", border: "1px solid #444", padding: "4px 12px", borderRadius: "6px", cursor: "pointer" }}>
+                            Batal Edit
+                        </button>
+                    )}
+                </div>
+                <form className="quick-add-form" onSubmit={handleSubmit} noValidate>
+                    <input type="text" placeholder="Nama customer" value={form.customer}
+                        onChange={e => setForm(p => ({ ...p, customer: e.target.value }))} required />
+                    <input type="text" placeholder="Menu item" value={form.item}
+                        onChange={e => setForm(p => ({ ...p, item: e.target.value }))} required />
+                    <input type="text" placeholder="Total (contoh: 78000)" value={form.total}
+                        onChange={e => setForm(p => ({ ...p, total: e.target.value }))} required />
+                    <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value }))}>
                         <option value="Preparing">Preparing</option>
                         <option value="On Delivery">On Delivery</option>
                         <option value="Delivered">Delivered</option>
                         <option value="Canceled">Canceled</option>
                     </select>
-
-                    {/* Tombol submit form */}
-                    <button type="submit">Add Order</button>
+                    <button type="submit" style={{ backgroundColor: editId ? "#3b82f6" : "#ff6b35" }}>
+                        {editId ? "Update Order" : "Tambah Order"}
+                    </button>
                 </form>
+            </div>
 
-                {/* Menampilkan pesan kosong jika tidak ada data */}
-                {isEmpty ? (
-                    <div id="dashboard-empty-state">
-                        No orders found
-                    </div>
+            {/* ── TABLE ── */}
+            <div className="panel-card">
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px", flexWrap: "wrap", gap: "10px" }}>
+                    <div className="panel-title" style={{ margin: 0 }}>Daftar Orders ({filtered.length})</div>
+                    <input type="text" placeholder="Cari order..." value={search}
+                        onChange={e => setSearch(e.target.value)}
+                        style={{ padding: "8px 14px", backgroundColor: "#2d2d3d", color: "#fff", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", fontSize: "13px", outline: "none", width: "220px" }} />
+                </div>
+
+                {isEmpty || filtered.length === 0 ? (
+                    <div id="dashboard-empty-state">Tidak ada order ditemukan</div>
                 ) : (
-                    /* Tabel untuk menampilkan daftar orders */
                     <div className="table-wrapper">
                         <table className="panel-table">
-                            {/* Header tabel */}
                             <thead>
                                 <tr>
-                                    <th>Order ID</th>
-                                    <th>Customer</th>
-                                    <th>Item</th>
-                                    <th>Total</th>
-                                    <th>Status</th>
+                                    <th>Order ID</th><th>Customer</th><th>Item</th>
+                                    <th>Total</th><th>Status</th><th>Aksi</th>
                                 </tr>
                             </thead>
-
-                            {/* Body tabel - menampilkan setiap order */}
                             <tbody>
-                                {orders.map((order) => (
-                                    <tr key={order.id}>
-                                        <td>{order.id}</td>
+                                {filtered.map(order => (
+                                    <tr key={order.id} style={{ backgroundColor: editId === order.id ? "rgba(59,130,246,0.06)" : "transparent" }}>
+                                        <td style={{ fontWeight: 700, color: "#ff6b35" }}>{order.id}</td>
                                         <td>{order.customer}</td>
                                         <td>{order.item}</td>
                                         <td>{order.total}</td>
                                         <td>
-                                            {/* Badge status dengan styling yang sesuai */}
-                                            <span className={getOrderStatusClass(order.status)}>
+                                            <span style={{
+                                                backgroundColor: (STATUS_COLORS[order.status] || "#666") + "22",
+                                                color: STATUS_COLORS[order.status] || "#aaa",
+                                                border: `1px solid ${(STATUS_COLORS[order.status] || "#666")}44`,
+                                                padding: "3px 10px", borderRadius: "50px",
+                                                fontSize: "11px", fontWeight: 700,
+                                            }}>
                                                 {order.status}
                                             </span>
+                                        </td>
+                                        <td>
+                                            <div style={{ display: "flex", gap: "6px" }}>
+                                                <button type="button" onClick={() => startEdit(order)}
+                                                    style={actionBtn("#3b82f6")}>
+                                                    ✏️ Edit
+                                                </button>
+                                                <button type="button" onClick={() => setConfirm(order.id)}
+                                                    style={actionBtn("#ef4444")}>
+                                                    🗑️ Hapus
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
@@ -165,6 +134,50 @@ export default function Orders({ orders, onAddOrder, isEmpty }) {
                     </div>
                 )}
             </div>
+
+            {/* ── CONFIRM DELETE MODAL ── */}
+            {confirm && (
+                <ConfirmModal
+                    message={`Hapus order ${confirm}?`}
+                    onConfirm={() => { onDeleteOrder?.(confirm); setConfirm(null); }}
+                    onCancel={() => setConfirm(null)}
+                />
+            )}
         </div>
+    );
+}
+
+function actionBtn(color) {
+    return {
+        padding: "5px 12px", borderRadius: "6px", border: "none",
+        backgroundColor: color + "18", color, fontWeight: 600,
+        fontSize: "12px", cursor: "pointer",
+    };
+}
+
+function ConfirmModal({ message, onConfirm, onCancel }) {
+    return (
+        <>
+            <div onClick={onCancel} style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.6)", zIndex: 900 }} />
+            <div style={{
+                position: "fixed", top: "50%", left: "50%", transform: "translate(-50%,-50%)",
+                backgroundColor: "#1e1e2e", borderRadius: "14px", padding: "28px 32px",
+                zIndex: 901, textAlign: "center", minWidth: "300px",
+                border: "1px solid rgba(239,68,68,0.3)",
+            }}>
+                <div style={{ fontSize: "32px", marginBottom: "12px" }}>⚠️</div>
+                <p style={{ color: "#fff", fontSize: "15px", fontWeight: 600, margin: "0 0 20px" }}>{message}</p>
+                <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+                    <button type="button" onClick={onConfirm}
+                        style={{ padding: "9px 24px", backgroundColor: "#ef4444", color: "#fff", border: "none", borderRadius: "8px", fontWeight: 700, cursor: "pointer" }}>
+                        Ya, Hapus
+                    </button>
+                    <button type="button" onClick={onCancel}
+                        style={{ padding: "9px 24px", backgroundColor: "#2d2d3d", color: "#aaa", border: "none", borderRadius: "8px", fontWeight: 600, cursor: "pointer" }}>
+                        Batal
+                    </button>
+                </div>
+            </div>
+        </>
     );
 }
