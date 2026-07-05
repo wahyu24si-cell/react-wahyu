@@ -40,8 +40,8 @@ export default function NotFound() {
                         <div className="flex justify-center">
                             <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-blue-200 shadow-md">
                                 <img
-                                    src="/img/Gacor77.png"
-                                    alt="Gacor Restaurant"
+                                    src="/img/SuksesCatering.png"
+                                    alt="Sukses Catering"
                                     className="w-full h-full object-cover"
                                 />
                             </div>
@@ -91,7 +91,7 @@ export default function NotFound() {
                         <div className="flex justify-center gap-3">
                             {/* Email Link */}
                             <a
-                                href="mailto:support@gacor.com"
+                                href="mailto:support@suksescatering.com"
                                 className="px-3 py-1.5 bg-blue-100 text-blue-600 text-xs font-semibold rounded-lg hover:bg-blue-200 transition-colors"
                                 title="Email support"
                             >
@@ -126,7 +126,7 @@ export default function NotFound() {
                 {/* Help Text */}
                 <div className="mt-8 text-center">
                     <p className="text-sm text-gray-600">
-                        Error Code: 404 | Gacor Restaurant Admin Dashboard © 2025
+                        Error Code: 404 | Sukses Catering Admin Dashboard © 2025
                     </p>
                 </div>
             </div>

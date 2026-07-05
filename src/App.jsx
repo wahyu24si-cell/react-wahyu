@@ -1,7 +1,6 @@
 import React, { Suspense, useState, useMemo } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
-//import Loading from "./components/Loading";
 // import Orders from "./pages/Main/Orders";
 // import MainLayout from "./layout/MainLayout";
 // import Dashboard from "./pages/Main/Dashboard";
@@ -22,6 +21,9 @@ const Promotions = React.lazy(() => import("./pages/Main/Promotions"));
 const PromotionDetail = React.lazy(() => import("./pages/Main/PromotionDetail"));
 const Reports = React.lazy(() => import("./pages/Main/Reports"));
 const ReportDetail = React.lazy(() => import("./pages/Main/ReportDetail"));
+const UIComponents = React.lazy(() => import("./pages/Main/Components"));
+const GuestPage = React.lazy(() => import("./pages/Guest/GuestPage"));
+const MemberPage = React.lazy(() => import("./pages/Main/Member"));
 const NotFound = React.lazy(() => import("./pages/Main/NotFound"));
 const AuthLayout = React.lazy(() => import("./layout/AuthLayout"));
 const Login = React.lazy(() => import("./pages/Auth/Login"));
@@ -40,6 +42,8 @@ const initialMenuItems = [
     { id: "products", label: "Products", removable: false },
     { id: "promotions", label: "Promotions", removable: false },
     { id: "reports", label: "Reports", removable: false },
+    { id: "components", label: "UI Components", removable: false },
+    { id: "member",     label: "Member",        removable: false },
 ];
 
 // Data awal untuk orders (pesanan)
@@ -106,6 +110,7 @@ function getNextId(items) {
 export default function App() {
     const location = useLocation();
     const isAuthPage = ["/login", "/register", "/forgot"].includes(location.pathname);
+    const isGuestPage = location.pathname === "/guest";
 
     // State untuk menu yang sedang aktif (untuk styling di sidebar)
     const [activeSection, setActiveSection] = useState("dashboard");
@@ -341,7 +346,11 @@ export default function App() {
                         ? "Promotions"
                         : activeSection === "reports"
                             ? "Reports"
-                            : "Dashboard";
+                            : activeSection === "components"
+                                ? "UI Components"
+                                : activeSection === "member"
+                                    ? "Member"
+                                    : "Dashboard";
 
     /**
      * pageBreadcrumb - Menentukan breadcrumb sesuai route yang aktif
@@ -357,7 +366,11 @@ export default function App() {
                         ? "Home / Promotions / Promotion List"
                         : activeSection === "reports"
                             ? "Home / Reports / Sales Report"
-                            : "Home / Home Detail / Home Very Detail";
+                            : activeSection === "components"
+                                ? "Home / UI Components / Showcase"
+                                : activeSection === "member"
+                                    ? "Home / Member / Dashboard"
+                                    : "Home / Home Detail / Home Very Detail";
 
     // Mengecek apakah data kosong untuk menampilkan pesan empty state
     const isDashboardEmpty = filteredDashboardCards.length === 0;
@@ -374,6 +387,16 @@ export default function App() {
                         <Route path="/forgot" element={<Forgot />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
+                </Routes>
+            </Suspense>
+        );
+    }
+
+    if (isGuestPage) {
+        return (
+            <Suspense fallback={<Loading />}>
+                <Routes>
+                    <Route path="/guest" element={<GuestPage />} />
                 </Routes>
             </Suspense>
         );
@@ -486,6 +509,13 @@ export default function App() {
                         path="/reports/:id"
                         element={<ReportDetail />}
                     />
+
+                    <Route
+                        path="/components"
+                        element={<UIComponents />}
+                    />
+
+                    <Route path="/member" element={<MemberPage />} />
 
                     <Route path="*" element={<NotFound />} />
                 </Routes>

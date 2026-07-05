@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaHeadphonesAlt, FaList, FaPlus, FaThLarge, FaTrashAlt, FaTag, FaChartBar } from "react-icons/fa";
+import { FaHeadphonesAlt, FaList, FaPlus, FaThLarge, FaTrashAlt, FaTag, FaChartBar, FaPuzzlePiece, FaUserCircle } from "react-icons/fa";
 
 /**
  * MenuIcon Component - Menampilkan ikon yang sesuai untuk setiap menu
@@ -25,6 +25,10 @@ function MenuIcon({ menuId }) {
 
     if (menuId === "reports") {
         return <FaChartBar />;
+    }
+
+    if (menuId === "components") {
+        return <FaPuzzlePiece />;
     }
 
     return <FaPlus />;
@@ -55,6 +59,7 @@ function SidebarMenuItem({ id, label, isActive, removable, onClick, onRemove }) 
         if (menuId === "products") return "/products";
         if (menuId === "promotions") return "/promotions";
         if (menuId === "reports") return "/reports";
+        if (menuId === "components") return "/components";
         return "/";
     }
 
