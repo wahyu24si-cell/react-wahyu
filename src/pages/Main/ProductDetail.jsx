@@ -66,11 +66,11 @@ export default function ProductDetail() {
      */
     const getStockStatus = (stock) => {
         if (stock > 50) {
-            return { label: "Stock Melimpah", color: "#10b981" };
+            return { label: "Stok Melimpah", color: "#10b981" };
         } else if (stock > 20) {
-            return { label: "Stock Tersedia", color: "#3b82f6" };
+            return { label: "Stok Tersedia", color: "#3b82f6" };
         } else if (stock > 0) {
-            return { label: "Stock Terbatas", color: "#f59e0b" };
+            return { label: "Stok Terbatas", color: "#f59e0b" };
         } else {
             return { label: "Stok Habis", color: "#ef4444" };
         }
@@ -81,7 +81,7 @@ export default function ProductDetail() {
         return (
             <div id="dashboard-container">
                 <div className="panel-card">
-                    <div className="panel-title">Product Not Found</div>
+                    <div className="panel-title">Produk Tidak Ditemukan</div>
                     <div id="dashboard-empty-state" style={{ textAlign: "center", padding: "40px" }}>
                         <p style={{ color: "#ef4444", marginBottom: "20px" }}>{error}</p>
                         <button 
@@ -96,7 +96,7 @@ export default function ProductDetail() {
                                 fontWeight: 600,
                             }}
                         >
-                            ← Back to Products
+                            ← Kembali ke Produk
                         </button>
                     </div>
                 </div>
@@ -110,7 +110,7 @@ export default function ProductDetail() {
             <div id="dashboard-container">
                 <div className="panel-card">
                     <div id="dashboard-empty-state" style={{ textAlign: "center", padding: "40px" }}>
-                        Loading product details...
+                        Memuat detail produk...
                     </div>
                 </div>
             </div>
@@ -126,7 +126,7 @@ export default function ProductDetail() {
             <div className="panel-card">
                 {/* Header dengan tombol kembali */}
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px" }}>
-                    <div className="panel-title">Product Detail</div>
+                    <div className="panel-title">Detail Produk</div>
                     <button 
                         onClick={() => navigate("/admin/products")}
                         style={{
@@ -141,7 +141,7 @@ export default function ProductDetail() {
                         onMouseEnter={(e) => e.target.style.backgroundColor = "#4b5563"}
                         onMouseLeave={(e) => e.target.style.backgroundColor = "#6b7280"}
                     >
-                        ← Back to Products
+                        ← Kembali ke Produk
                     </button>
                 </div>
 
@@ -170,7 +170,7 @@ export default function ProductDetail() {
                             fontSize: "14px",
                             color: "#999",
                         }}>
-                            No Image Available
+                            Tidak Ada Gambar
                         </div>
 
                         {/* Nama dan Judul Produk */}
@@ -183,7 +183,7 @@ export default function ProductDetail() {
                             {/* ID Produk */}
                             <div>
                                 <label style={{ fontWeight: 600, color: "#999", fontSize: "12px", textTransform: "uppercase" }}>
-                                    Product ID
+                                    ID Produk
                                 </label>
                                 <p style={{ margin: "8px 0 0 0", fontSize: "16px" }}>{product.id}</p>
                             </div>
@@ -191,7 +191,7 @@ export default function ProductDetail() {
                             {/* Kode Produk */}
                             <div>
                                 <label style={{ fontWeight: 600, color: "#999", fontSize: "12px", textTransform: "uppercase" }}>
-                                    Product Code
+                                    Kode Produk
                                 </label>
                                 <p style={{ margin: "8px 0 0 0", fontSize: "16px", fontFamily: "monospace" }}>
                                     {product.code}
@@ -201,7 +201,7 @@ export default function ProductDetail() {
                             {/* Kategori Produk */}
                             <div>
                                 <label style={{ fontWeight: 600, color: "#999", fontSize: "12px", textTransform: "uppercase" }}>
-                                    Category
+                                    Kategori
                                 </label>
                                 <p style={{ margin: "8px 0 0 0", fontSize: "16px" }}>
                                     <span style={{
@@ -219,7 +219,7 @@ export default function ProductDetail() {
                             {/* Brand Produk */}
                             <div>
                                 <label style={{ fontWeight: 600, color: "#999", fontSize: "12px", textTransform: "uppercase" }}>
-                                    Brand
+                                    Merek
                                 </label>
                                 <p style={{ margin: "8px 0 0 0", fontSize: "16px", fontWeight: 500 }}>
                                     {product.brand}
@@ -229,7 +229,7 @@ export default function ProductDetail() {
                             {/* Harga Produk */}
                             <div>
                                 <label style={{ fontWeight: 600, color: "#999", fontSize: "12px", textTransform: "uppercase" }}>
-                                    Price
+                                    Harga
                                 </label>
                                 <p style={{ 
                                     margin: "8px 0 0 0", 
@@ -257,10 +257,10 @@ export default function ProductDetail() {
                             border: `2px solid ${stockStatus.color}`,
                         }}>
                             <p style={{ margin: 0, color: "#999", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                                Stock Status
+                                Status Stok
                             </p>
                             <p style={{ margin: "12px 0 0 0", fontSize: "20px", fontWeight: 600, color: stockStatus.color }}>
-                                {product.stock} Items
+                                {product.stock} Unit
                             </p>
                             <p style={{ margin: "8px 0 0 0", fontSize: "13px", color: "#bbb" }}>
                                 {stockStatus.label}
@@ -274,7 +274,7 @@ export default function ProductDetail() {
                             borderRadius: "8px",
                         }}>
                             <p style={{ margin: 0, color: "#999", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                                Unit Price
+                                Harga Satuan
                             </p>
                             <p style={{ margin: "12px 0 0 0", fontSize: "20px", fontWeight: 700, color: "#10b981" }}>
                                 {formatRupiah(product.price)}
@@ -288,19 +288,19 @@ export default function ProductDetail() {
                             borderRadius: "8px",
                         }}>
                             <p style={{ margin: 0, color: "#999", fontSize: "12px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                                Product Details
+                                Detail Produk
                             </p>
                             <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "12px" }}>
                                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px" }}>
-                                    <span style={{ color: "#999" }}>Brand:</span>
+                                    <span style={{ color: "#999" }}>Merek:</span>
                                     <span style={{ fontWeight: 500 }}>{product.brand}</span>
                                 </div>
                                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px" }}>
-                                    <span style={{ color: "#999" }}>Category:</span>
+                                    <span style={{ color: "#999" }}>Kategori:</span>
                                     <span style={{ fontWeight: 500 }}>{product.category}</span>
                                 </div>
                                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: "13px" }}>
-                                    <span style={{ color: "#999" }}>Code:</span>
+                                    <span style={{ color: "#999" }}>Kode:</span>
                                     <span style={{ fontWeight: 500, fontFamily: "monospace" }}>{product.code}</span>
                                 </div>
                             </div>

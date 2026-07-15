@@ -68,7 +68,7 @@ export default function Components() {
             {/* ── 1. NAVBAR ── */}
             <div style={sectionStyle}>
                 <span style={labelStyle}>01 · Navbar</span>
-                <Navbar logo="Sukses Catering." onOrderClick={() => alert("Order clicked!")} />
+                <Navbar logo="Gacor." onOrderClick={() => alert("Order clicked!")} />
             </div>
 
             {/* ── 2. HERO SECTION ── */}

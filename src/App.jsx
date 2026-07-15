@@ -42,13 +42,13 @@ const Loading         = React.lazy(() => import("./components/Loading"));
 
 // ── Data awal ─────────────────────────────────────────────────────────────────
 const initialMenuItems = [
-    { id: "dashboard",  label: "Dashboard",    removable: false },
-    { id: "orders",     label: "Orders",       removable: false },
-    { id: "customers",  label: "Customers",    removable: false },
-    { id: "products",   label: "Products",     removable: false },
-    { id: "promotions", label: "Promotions",   removable: false },
-    { id: "reports",    label: "Reports",      removable: false },
-    { id: "components", label: "UI Components",removable: false },
+    { id: "dashboard",  label: "Dasbor",       removable: false },
+    { id: "orders",     label: "Pesanan",      removable: false },
+    { id: "customers",  label: "Pelanggan",    removable: false },
+    { id: "products",   label: "Produk",       removable: false },
+    { id: "promotions", label: "Promosi",      removable: false },
+    { id: "reports",    label: "Laporan",      removable: false },
+    { id: "components", label: "Komponen UI",  removable: false },
 ];
 
 const orderRows = [
@@ -118,10 +118,10 @@ export default function App() {
         const canceled  = ordersData.filter(o => o.status === "Canceled").length;
         const revenue   = ordersData.reduce((s, o) => s + (o.status === "Canceled" ? 0 : parseRupiah(o.total)), 0);
         return [
-            { id: "orders",    icon: "cart",  value: String(total),           label: "Total Orders"    },
-            { id: "delivered", icon: "truck", value: String(delivered),        label: "Total Delivered" },
-            { id: "canceled",  icon: "ban",   value: String(canceled),         label: "Total Canceled"  },
-            { id: "revenue",   icon: "money", value: formatRupiah(revenue),    label: "Total Revenue"   },
+            { id: "orders",    icon: "cart",  value: String(total),           label: "Total Pesanan"    },
+            { id: "delivered", icon: "truck", value: String(delivered),        label: "Total Terkirim" },
+            { id: "canceled",  icon: "ban",   value: String(canceled),         label: "Total Dibatalkan"  },
+            { id: "revenue",   icon: "money", value: formatRupiah(revenue),    label: "Total Pendapatan"   },
         ];
     }, [ordersData]);
 
@@ -193,11 +193,11 @@ export default function App() {
     function handleDeleteCustomer(id) { setCustomersData(prev => prev.filter(c => c.id !== id)); }
 
     // ── Page meta ─────────────────────────────────────────────
-    const PAGE_TITLES = { orders: "Orders", customers: "Customers", products: "Products", promotions: "Promotions", reports: "Reports", components: "UI Components", dashboard: "Dashboard" };
-    const PAGE_BREADCRUMBS = { orders: "Admin / Orders", customers: "Admin / Customers", products: "Admin / Products", promotions: "Admin / Promotions", reports: "Admin / Reports", components: "Admin / UI Components", dashboard: "Admin / Dashboard" };
+    const PAGE_TITLES = { orders: "Pesanan", customers: "Pelanggan", products: "Produk", promotions: "Promosi", reports: "Laporan", components: "Komponen UI", dashboard: "Dasbor" };
+    const PAGE_BREADCRUMBS = { orders: "Admin / Pesanan", customers: "Admin / Pelanggan", products: "Admin / Produk", promotions: "Admin / Promosi", reports: "Admin / Laporan", components: "Admin / Komponen UI", dashboard: "Admin / Dasbor" };
 
-    const pageTitle      = PAGE_TITLES[sectionFromPath]      ?? "Dashboard";
-    const pageBreadcrumb = PAGE_BREADCRUMBS[sectionFromPath] ?? "Admin / Dashboard";
+    const pageTitle      = PAGE_TITLES[sectionFromPath]      ?? "Dasbor";
+    const pageBreadcrumb = PAGE_BREADCRUMBS[sectionFromPath] ?? "Admin / Dasbor";
 
     const isDashboardEmpty  = filteredDashboardCards.length === 0;
     const isOrdersEmpty     = filteredOrders.length === 0;

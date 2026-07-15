@@ -50,29 +50,29 @@ export default function Orders({ orders, onAddOrder, onEditOrder, onDeleteOrder,
             {/* ── FORM CREATE / EDIT ── */}
             <div className="panel-card" style={{ marginBottom: "20px" }}>
                 <div className="panel-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span>{editId ? "✏️ Edit Order" : "➕ Tambah Order"}</span>
+                    <span>{editId ? "✏️ Perbarui Pesanan" : "➕ Tambah Pesanan"}</span>
                     {editId && (
                         <button type="button" onClick={cancelEdit}
                             style={{ fontSize: "12px", color: "#888", background: "none", border: "1px solid #444", padding: "4px 12px", borderRadius: "6px", cursor: "pointer" }}>
-                            Batal Edit
+                            Batal Perbarui
                         </button>
                     )}
                 </div>
                 <form className="quick-add-form" onSubmit={handleSubmit} noValidate>
-                    <input type="text" placeholder="Nama customer" value={form.customer}
+                    <input type="text" placeholder="Nama pelanggan" value={form.customer}
                         onChange={e => setForm(p => ({ ...p, customer: e.target.value }))} required />
-                    <input type="text" placeholder="Menu item" value={form.item}
+                    <input type="text" placeholder="Nama menu" value={form.item}
                         onChange={e => setForm(p => ({ ...p, item: e.target.value }))} required />
                     <input type="text" placeholder="Total (contoh: 78000)" value={form.total}
                         onChange={e => setForm(p => ({ ...p, total: e.target.value }))} required />
                     <select value={form.status} onChange={e => setForm(p => ({ ...p, status: e.target.value }))}>
-                        <option value="Preparing">Preparing</option>
-                        <option value="On Delivery">On Delivery</option>
-                        <option value="Delivered">Delivered</option>
-                        <option value="Canceled">Canceled</option>
+                        <option value="Preparing">Diproses</option>
+                        <option value="On Delivery">Dalam Pengiriman</option>
+                        <option value="Delivered">Terkirim</option>
+                        <option value="Canceled">Dibatalkan</option>
                     </select>
                     <button type="submit" style={{ backgroundColor: editId ? "#3b82f6" : "#ff6b35" }}>
-                        {editId ? "Update Order" : "Tambah Order"}
+                        {editId ? "Perbarui Pesanan" : "Tambah Pesanan"}
                     </button>
                 </form>
             </div>
@@ -80,20 +80,20 @@ export default function Orders({ orders, onAddOrder, onEditOrder, onDeleteOrder,
             {/* ── TABLE ── */}
             <div className="panel-card">
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px", flexWrap: "wrap", gap: "10px" }}>
-                    <div className="panel-title" style={{ margin: 0 }}>Daftar Orders ({filtered.length})</div>
-                    <input type="text" placeholder="Cari order..." value={search}
+                    <div className="panel-title" style={{ margin: 0 }}>Daftar Pesanan ({filtered.length})</div>
+                    <input type="text" placeholder="Cari pesanan..." value={search}
                         onChange={e => setSearch(e.target.value)}
                         style={{ padding: "8px 14px", backgroundColor: "#2d2d3d", color: "#fff", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", fontSize: "13px", outline: "none", width: "220px" }} />
                 </div>
 
                 {isEmpty || filtered.length === 0 ? (
-                    <div id="dashboard-empty-state">Tidak ada order ditemukan</div>
+                    <div id="dashboard-empty-state">Tidak ada pesanan ditemukan</div>
                 ) : (
                     <div className="table-wrapper">
                         <table className="panel-table">
                             <thead>
                                 <tr>
-                                    <th>Order ID</th><th>Customer</th><th>Item</th>
+                                    <th>ID Pesanan</th><th>Pelanggan</th><th>Menu</th>
                                     <th>Total</th><th>Status</th><th>Aksi</th>
                                 </tr>
                             </thead>
@@ -119,7 +119,7 @@ export default function Orders({ orders, onAddOrder, onEditOrder, onDeleteOrder,
                                             <div style={{ display: "flex", gap: "6px" }}>
                                                 <button type="button" onClick={() => startEdit(order)}
                                                     style={actionBtn("#3b82f6")}>
-                                                    ✏️ Edit
+                                                    ✏️ Perbarui
                                                 </button>
                                                 <button type="button" onClick={() => setConfirm(order.id)}
                                                     style={actionBtn("#ef4444")}>
@@ -138,7 +138,7 @@ export default function Orders({ orders, onAddOrder, onEditOrder, onDeleteOrder,
             {/* ── CONFIRM DELETE MODAL ── */}
             {confirm && (
                 <ConfirmModal
-                    message={`Hapus order ${confirm}?`}
+                    message={`Hapus pesanan ${confirm}?`}
                     onConfirm={() => { onDeleteOrder?.(confirm); setConfirm(null); }}
                     onCancel={() => setConfirm(null)}
                 />

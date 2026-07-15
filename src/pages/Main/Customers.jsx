@@ -40,31 +40,31 @@ export default function Customers({ customers, onAddCustomer, onEditCustomer, on
             {/* ── FORM ── */}
             <div className="panel-card" style={{ marginBottom: "20px" }}>
                 <div className="panel-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span>{editId ? "✏️ Edit Customer" : "➕ Tambah Customer"}</span>
+                    <span>{editId ? "✏️ Perbarui Pelanggan" : "➕ Tambah Pelanggan"}</span>
                     {editId && (
                         <button type="button" onClick={() => { setEditId(null); setForm({ name: "", email: "", city: "", totalOrder: "", tier: "Bronze" }); }}
                             style={{ fontSize: "12px", color: "#888", background: "none", border: "1px solid #444", padding: "4px 12px", borderRadius: "6px", cursor: "pointer" }}>
-                            Batal Edit
+                            Batal Perbarui
                         </button>
                     )}
                 </div>
                 <form className="quick-add-form" onSubmit={handleSubmit} noValidate>
-                    <input type="text" placeholder="Nama customer" value={form.name}
+                    <input type="text" placeholder="Nama pelanggan" value={form.name}
                         onChange={e => setForm(p => ({ ...p, name: e.target.value }))} required />
                     <input type="email" placeholder="Email" value={form.email}
                         onChange={e => setForm(p => ({ ...p, email: e.target.value }))} required />
                     <input type="text" placeholder="Kota" value={form.city}
                         onChange={e => setForm(p => ({ ...p, city: e.target.value }))} required />
-                    <input type="number" min="0" placeholder="Total order" value={form.totalOrder}
+                    <input type="number" min="0" placeholder="Total pesanan" value={form.totalOrder}
                         onChange={e => setForm(p => ({ ...p, totalOrder: e.target.value }))} />
                     <select value={form.tier} onChange={e => setForm(p => ({ ...p, tier: e.target.value }))}>
-                        <option value="Bronze">Bronze</option>
-                        <option value="Silver">Silver</option>
-                        <option value="Gold">Gold</option>
+                        <option value="Bronze">Perunggu</option>
+                        <option value="Silver">Perak</option>
+                        <option value="Gold">Emas</option>
                         <option value="Platinum">Platinum</option>
                     </select>
                     <button type="submit" style={{ backgroundColor: editId ? "#3b82f6" : "#ff6b35" }}>
-                        {editId ? "Update" : "Tambah"}
+                        {editId ? "Perbarui" : "Tambah"}
                     </button>
                 </form>
             </div>
@@ -72,8 +72,8 @@ export default function Customers({ customers, onAddCustomer, onEditCustomer, on
             {/* ── TABLE ── */}
             <div className="panel-card">
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px", flexWrap: "wrap", gap: "10px" }}>
-                    <div className="panel-title" style={{ margin: 0 }}>Daftar Customers ({filtered.length})</div>
-                    <input type="text" placeholder="Cari customer..." value={search}
+                    <div className="panel-title" style={{ margin: 0 }}>Daftar Pelanggan ({filtered.length})</div>
+                    <input type="text" placeholder="Cari pelanggan..." value={search}
                         onChange={e => setSearch(e.target.value)}
                         style={{ padding: "8px 14px", backgroundColor: "#2d2d3d", color: "#fff", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px", fontSize: "13px", outline: "none", width: "220px" }} />
                 </div>
@@ -109,7 +109,7 @@ export default function Customers({ customers, onAddCustomer, onEditCustomer, on
                                         </td>
                                         <td>
                                             <div style={{ display: "flex", gap: "6px" }}>
-                                                <button type="button" onClick={() => startEdit(c)} style={actionBtn("#3b82f6")}>✏️ Edit</button>
+                                                <button type="button" onClick={() => startEdit(c)} style={actionBtn("#3b82f6")}>✏️ Perbarui</button>
                                                 <button type="button" onClick={() => setConfirm(c.id)} style={actionBtn("#ef4444")}>🗑️ Hapus</button>
                                             </div>
                                         </td>

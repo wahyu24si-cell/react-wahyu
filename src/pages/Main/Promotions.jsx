@@ -74,7 +74,7 @@ export default function Promotions() {
             {/* Form CREATE / EDIT */}
             <div className="panel-card" style={{ marginBottom: "20px" }}>
                 <div className="panel-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <span>{editId ? "✏️ Edit Promosi" : "➕ Tambah Promosi"}</span>
+                    <span>{editId ? "✏️ Perbarui Promosi" : "➕ Tambah Promosi"}</span>
                     {editId && (
                         <button type="button" onClick={() => { setEditId(null); setPromoForm(EMPTY_FORM); }}
                             style={{ fontSize: "12px", color: "#888", background: "none", border: "1px solid #444", padding: "4px 12px", borderRadius: "6px", cursor: "pointer" }}>
@@ -87,16 +87,16 @@ export default function Promotions() {
                     <input type="text" placeholder="Deskripsi" value={promoForm.description} onChange={(e) => setPromoForm((c) => ({ ...c, description: e.target.value }))} required />
                     <input type="text" placeholder="Nilai diskon (10% / Rp 20.000)" value={promoForm.discount} onChange={(e) => setPromoForm((c) => ({ ...c, discount: e.target.value }))} required />
                     <select value={promoForm.type} onChange={(e) => setPromoForm((c) => ({ ...c, type: e.target.value }))}>
-                        <option value="Percentage">Percentage</option>
-                        <option value="Fixed">Fixed</option>
+                        <option value="Percentage">Persentase</option>
+                        <option value="Fixed">Tetap</option>
                     </select>
                     <select value={promoForm.status} onChange={(e) => setPromoForm((c) => ({ ...c, status: e.target.value }))}>
-                        <option value="Active">Active</option>
-                        <option value="Inactive">Inactive</option>
+                        <option value="Active">Aktif</option>
+                        <option value="Inactive">Nonaktif</option>
                     </select>
                     <input type="date" value={promoForm.expiry} onChange={(e) => setPromoForm((c) => ({ ...c, expiry: e.target.value }))} required />
                     <button type="submit" style={{ backgroundColor: editId ? "#3b82f6" : "#ff6b35" }}>
-                        {editId ? "Update" : "Tambah"}
+                        {editId ? "Perbarui" : "Tambah"}
                     </button>
                 </form>
             </div>
@@ -136,7 +136,7 @@ export default function Promotions() {
                                         <td style={{ padding: "11px 12px" }}>
                                             <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
                                                 <Link to={`/admin/promotions/${promo.id}`} style={actionBtn("#3b82f6", true)}>Detail</Link>
-                                                <button type="button" onClick={() => startEdit(promo)} style={actionBtn("#f59e0b")}>✏️ Edit</button>
+                                                <button type="button" onClick={() => startEdit(promo)} style={actionBtn("#f59e0b")}>✏️ Perbarui</button>
                                                 <button type="button" onClick={() => setConfirm(promo.id)} style={actionBtn("#ef4444")}>🗑️</button>
                                             </div>
                                         </td>

@@ -35,7 +35,7 @@ export default function PromotionDetail() {
         return (
             <div id="dashboard-container">
                 <div className="panel-card">
-                    <div className="panel-title">Promotion Not Found</div>
+                    <div className="panel-title">Promosi Tidak Ditemukan</div>
                     <div id="dashboard-empty-state" style={{ textAlign: "center", padding: "40px" }}>
                         <p style={{ color: "#ef4444", marginBottom: "20px" }}>{error}</p>
                         <button
@@ -43,7 +43,7 @@ export default function PromotionDetail() {
                             onClick={() => navigate("/admin/promotions")}
                             style={{ padding: "10px 20px", cursor: "pointer", backgroundColor: "#10b981", color: "white", border: "none", borderRadius: "4px", fontWeight: 600 }}
                         >
-                            ← Back to Promotions
+                            ← Kembali ke Promosi
                         </button>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ export default function PromotionDetail() {
             <div id="dashboard-container">
                 <div className="panel-card">
                     <div id="dashboard-empty-state" style={{ textAlign: "center", padding: "40px" }}>
-                        Loading promotion details...
+                        Memuat detail promosi...
                     </div>
                 </div>
             </div>
@@ -72,7 +72,7 @@ export default function PromotionDetail() {
             <div className="panel-card">
                 {/* Header */}
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px", flexWrap: "wrap", gap: "12px" }}>
-                    <div className="panel-title">Promotion Detail</div>
+                    <div className="panel-title">Detail Promosi</div>
                     <button
                         type="button"
                         onClick={() => navigate("/admin/promotions")}

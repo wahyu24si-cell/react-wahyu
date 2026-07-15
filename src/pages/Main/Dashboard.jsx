@@ -117,12 +117,12 @@ export default function Dashboard({
         return (
             <div id="dashboard-container">
                 <div className="panel-card">
-                    <div className="panel-title">Recent Orders</div>
+                    <div className="panel-title">Pesanan Terbaru</div>
                     <form className="quick-add-form" onSubmit={handleSubmitOrder} noValidate>
                         <input
                             type="text"
-                            placeholder="Customer name"
-                            aria-label="Customer name"
+                            placeholder="Nama pelanggan"
+                            aria-label="Nama pelanggan"
                             value={orderForm.customer}
                             onChange={(event) =>
                                 setOrderForm((current) => ({ ...current, customer: event.target.value }))
@@ -131,8 +131,8 @@ export default function Dashboard({
                         />
                         <input
                             type="text"
-                            placeholder="Menu item"
-                            aria-label="Menu item"
+                            placeholder="Nama menu"
+                            aria-label="Nama menu"
                             value={orderForm.item}
                             onChange={(event) =>
                                 setOrderForm((current) => ({ ...current, item: event.target.value }))
@@ -150,31 +150,31 @@ export default function Dashboard({
                             required
                         />
                         <select
-                            aria-label="Order status"
+                            aria-label="Status pesanan"
                             value={orderForm.status}
                             onChange={(event) =>
                                 setOrderForm((current) => ({ ...current, status: event.target.value }))
                             }
                         >
-                            <option value="Preparing">Preparing</option>
-                            <option value="On Delivery">On Delivery</option>
-                            <option value="Delivered">Delivered</option>
-                            <option value="Canceled">Canceled</option>
+                            <option value="Preparing">Diproses</option>
+                            <option value="On Delivery">Dalam Pengiriman</option>
+                            <option value="Delivered">Terkirim</option>
+                            <option value="Canceled">Dibatalkan</option>
                         </select>
-                        <button type="submit">Add Order</button>
+                        <button type="submit">Tambah Pesanan</button>
                     </form>
                     {isOrdersEmpty ? (
                         <div id="dashboard-empty-state">
-                            No orders found for <b>{searchQuery}</b>
+                            Tidak ada pesanan untuk <b>{searchQuery}</b>
                         </div>
                     ) : (
                         <div className="table-wrapper">
                             <table className="panel-table">
                                 <thead>
                                     <tr>
-                                        <th>Order ID</th>
-                                        <th>Customer</th>
-                                        <th>Item</th>
+                                        <th>ID Pesanan</th>
+                                        <th>Pelanggan</th>
+                                        <th>Menu</th>
                                         <th>Total</th>
                                         <th>Status</th>
                                     </tr>
@@ -204,12 +204,12 @@ export default function Dashboard({
         return (
             <div id="dashboard-container">
                 <div className="panel-card">
-                    <div className="panel-title">Customers</div>
+                    <div className="panel-title">Pelanggan</div>
                     <form className="quick-add-form" onSubmit={handleSubmitCustomer} noValidate>
                         <input
                             type="text"
-                            placeholder="Customer name"
-                            aria-label="Customer name"
+                            placeholder="Nama pelanggan"
+                            aria-label="Nama pelanggan"
                             value={customerForm.name}
                             onChange={(event) =>
                                 setCustomerForm((current) => ({ ...current, name: event.target.value }))
@@ -228,8 +228,8 @@ export default function Dashboard({
                         />
                         <input
                             type="text"
-                            placeholder="City"
-                            aria-label="City"
+                            placeholder="Kota"
+                            aria-label="Kota"
                             value={customerForm.city}
                             onChange={(event) =>
                                 setCustomerForm((current) => ({ ...current, city: event.target.value }))
@@ -239,30 +239,30 @@ export default function Dashboard({
                         <input
                             type="number"
                             min="0"
-                            placeholder="Total order"
-                            aria-label="Total orders"
+                            placeholder="Total pesanan"
+                            aria-label="Total pesanan"
                             value={customerForm.totalOrder}
                             onChange={(event) =>
                                 setCustomerForm((current) => ({ ...current, totalOrder: event.target.value }))
                             }
                         />
                         <select
-                            aria-label="Customer tier"
+                            aria-label="Tingkat pelanggan"
                             value={customerForm.tier}
                             onChange={(event) =>
                                 setCustomerForm((current) => ({ ...current, tier: event.target.value }))
                             }
                         >
-                            <option value="Bronze">Bronze</option>
-                            <option value="Silver">Silver</option>
-                            <option value="Gold">Gold</option>
+                            <option value="Bronze">Perunggu</option>
+                            <option value="Silver">Perak</option>
+                            <option value="Gold">Emas</option>
                             <option value="Platinum">Platinum</option>
                         </select>
-                        <button type="submit">Add Customer</button>
+                        <button type="submit">Tambah Pelanggan</button>
                     </form>
                     {isCustomersEmpty ? (
                         <div id="dashboard-empty-state">
-                            No customers found for <b>{searchQuery}</b>
+                            Tidak ada pelanggan untuk <b>{searchQuery}</b>
                         </div>
                     ) : (
                         <div className="customers-grid">
@@ -278,7 +278,7 @@ export default function Dashboard({
                                     <div className="customer-meta">
                                         <span>{customer.id}</span>
                                         <span>{customer.city}</span>
-                                        <span>{customer.totalOrder} Orders</span>
+                                        <span>{customer.totalOrder} Pesanan</span>
                                     </div>
                                 </article>
                             ))}
@@ -294,7 +294,7 @@ export default function Dashboard({
             <div id="dashboard-grid">
                 {isEmpty ? (
                     <div id="dashboard-empty-state">
-                        No results found for <b>{searchQuery}</b>
+                        Tidak ada hasil untuk <b>{searchQuery}</b>
                     </div>
                 ) : (
                     cards.map((card) => (
@@ -311,14 +311,14 @@ export default function Dashboard({
 
             <div id="dashboard-secondary-grid">
                 <div className="panel-card">
-                    <div className="panel-title">Recent Orders</div>
+                    <div className="panel-title">Pesanan Terbaru</div>
                     <div className="table-wrapper">
                         <table className="panel-table">
                             <thead>
                                 <tr>
-                                    <th>Order ID</th>
-                                    <th>Customer</th>
-                                    <th>Item</th>
+                                    <th>ID Pesanan</th>
+                                    <th>Pelanggan</th>
+                                    <th>Menu</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -339,7 +339,7 @@ export default function Dashboard({
                 </div>
 
                 <div className="panel-card">
-                    <div className="panel-title">Customer Activity</div>
+                    <div className="panel-title">Aktivitas Pelanggan</div>
                     <div id="dashboard-activity-list">
                         {customers.slice(0, 4).map((customer) => (
                             <div key={customer.id} className="dashboard-activity-item">
@@ -349,7 +349,7 @@ export default function Dashboard({
                                         {customer.city} · {customer.tier}
                                     </div>
                                 </div>
-                                <div className="dashboard-activity-value">{customer.totalOrder} orders</div>
+                                <div className="dashboard-activity-value">{customer.totalOrder} pesanan</div>
                             </div>
                         ))}
                     </div>

@@ -75,7 +75,7 @@ export default function Products() {
             {/* ── FORM CREATE / EDIT ── */}
             {showForm && (
                 <div className="panel-card" style={{ marginBottom: "20px" }}>
-                    <div className="panel-title">{editId ? "✏️ Edit Produk" : "➕ Produk Baru"}</div>
+                    <div className="panel-title">{editId ? "✏️ Perbarui Produk" : "➕ Produk Baru"}</div>
                     <form onSubmit={handleSubmit} noValidate>
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "12px", marginBottom: "14px" }}>
                             {[
@@ -98,7 +98,7 @@ export default function Products() {
                         </div>
                         <div style={{ display: "flex", gap: "10px" }}>
                             <button type="submit" style={{ padding: "10px 24px", backgroundColor: editId ? "#3b82f6" : "#ff6b35", color: "#fff", border: "none", borderRadius: "8px", fontWeight: 700, cursor: "pointer" }}>
-                                {editId ? "Update Produk" : "Simpan Produk"}
+                                {editId ? "Perbarui Produk" : "Simpan Produk"}
                             </button>
                             <button type="button" onClick={() => { setShowForm(false); setEditId(null); setForm(EMPTY_FORM); }}
                                 style={{ padding: "10px 20px", backgroundColor: "#374151", color: "#aaa", border: "none", borderRadius: "8px", fontWeight: 600, cursor: "pointer" }}>

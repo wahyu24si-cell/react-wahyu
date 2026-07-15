@@ -12,10 +12,10 @@ export default function Header({ searchValue, onSearchChange }) {
 				<input
 					id="search-input"
 					type="text"
-					placeholder="Search Here..."
+					placeholder="Cari di sini..."
 					value={searchValue}
 					onChange={onSearchChange}
-					aria-label="Search dashboard cards and menus"
+					aria-label="Cari kartu dasbor dan menu"
 				/>
 				<FaSearch id="search-icon" />
 			</div>

@@ -132,6 +132,7 @@ export function AuthProvider({ children }) {
     const isMember = !!user;
     const isGuest  = !user && !loading;
 
+
     const value = {
         user,
         profile,

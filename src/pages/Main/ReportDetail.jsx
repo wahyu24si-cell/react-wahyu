@@ -57,7 +57,7 @@ export default function ReportDetail() {
         return (
             <div id="dashboard-container">
                 <div className="panel-card">
-                    <div className="panel-title">Report Not Found</div>
+                    <div className="panel-title">Laporan Tidak Ditemukan</div>
                     <div id="dashboard-empty-state" style={{ textAlign: "center", padding: "40px" }}>
                         <p style={{ color: "#ef4444", marginBottom: "20px" }}>{error}</p>
                         <button
@@ -65,7 +65,7 @@ export default function ReportDetail() {
                             onClick={() => navigate("/admin/reports")}
                             style={{ padding: "10px 20px", cursor: "pointer", backgroundColor: "#10b981", color: "white", border: "none", borderRadius: "4px", fontWeight: 600 }}
                         >
-                            ← Back to Reports
+                            ← Kembali ke Laporan
                         </button>
                     </div>
                 </div>
@@ -78,7 +78,7 @@ export default function ReportDetail() {
             <div id="dashboard-container">
                 <div className="panel-card">
                     <div id="dashboard-empty-state" style={{ textAlign: "center", padding: "40px" }}>
-                        Loading report details...
+                        Memuat detail laporan...
                     </div>
                 </div>
             </div>
@@ -110,7 +110,7 @@ export default function ReportDetail() {
                 {/* Header */}
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px", flexWrap: "wrap", gap: "12px" }}>
                     <div>
-                        <div className="panel-title">Report Detail</div>
+                        <div className="panel-title">Detail Laporan</div>
                         <div style={{ fontSize: "14px", color: "#aaa", marginTop: "4px" }}>{report.fullMonth}</div>
                     </div>
                     <div style={{ display: "flex", gap: "8px" }}>
@@ -121,7 +121,7 @@ export default function ReportDetail() {
                                 onClick={() => navigate(`/reports/${Number(id) - 1}`)}
                                 style={{ padding: "8px 14px", cursor: "pointer", backgroundColor: "#374151", color: "white", border: "none", borderRadius: "4px", fontWeight: 500 }}
                             >
-                                ← Prev
+                                ← Sebelumnya
                             </button>
                         )}
                         {/* Navigasi ke bulan berikutnya */}
@@ -131,7 +131,7 @@ export default function ReportDetail() {
                                 onClick={() => navigate(`/reports/${Number(id) + 1}`)}
                                 style={{ padding: "8px 14px", cursor: "pointer", backgroundColor: "#374151", color: "white", border: "none", borderRadius: "4px", fontWeight: 500 }}
                             >
-                                Next →
+                                Selanjutnya →
                             </button>
                         )}
                         <button
@@ -139,7 +139,7 @@ export default function ReportDetail() {
                             onClick={() => navigate("/admin/reports")}
                             style={{ padding: "8px 16px", cursor: "pointer", backgroundColor: "#6b7280", color: "white", border: "none", borderRadius: "4px", fontWeight: 500 }}
                         >
-                            ← Back to Reports
+                            ← Kembali ke Laporan
                         </button>
                     </div>
                 </div>
@@ -147,28 +147,28 @@ export default function ReportDetail() {
                 {/* KPI Cards */}
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "16px", marginBottom: "28px" }}>
                     <KpiCard
-                        label="Revenue"
+                        label="Pendapatan"
                         value={formatRupiah(report.revenue)}
                         color="#10b981"
                         diff={revDiff}
                         diffFormat={(d) => formatRupiah(Math.abs(d.diff))}
                     />
                     <KpiCard
-                        label="Total Orders"
+                        label="Total Pesanan"
                         value={report.orders}
                         color="#3b82f6"
                         diff={ordDiff}
                         diffFormat={(d) => Math.abs(d.diff)}
                     />
                     <KpiCard
-                        label="Delivered"
+                        label="Terkirim"
                         value={report.delivered}
                         color="#8b5cf6"
                         diff={delDiff}
                         diffFormat={(d) => Math.abs(d.diff)}
                     />
                     <KpiCard
-                        label="Canceled"
+                        label="Dibatalkan"
                         value={report.canceled}
                         color="#ef4444"
                         diff={canDiff}
@@ -189,8 +189,8 @@ export default function ReportDetail() {
                                 Statistik Detail
                             </div>
                             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
-                                <StatItem label="Success Rate" value={`${successRate}%`} color={Number(successRate) >= 90 ? "#10b981" : Number(successRate) >= 80 ? "#f59e0b" : "#ef4444"} />
-                                <StatItem label="Avg. Order Value" value={formatRupiah(report.avgOrderValue)} color="#3b82f6" />
+                                <StatItem label="Tingkat Keberhasilan" value={`${successRate}%`} color={Number(successRate) >= 90 ? "#10b981" : Number(successRate) >= 80 ? "#f59e0b" : "#ef4444"} />
+                                <StatItem label="Rata-rata Nilai Pesanan" value={formatRupiah(report.avgOrderValue)} color="#3b82f6" />
                                 <StatItem label="Pelanggan Baru" value={report.newCustomers} color="#8b5cf6" />
                                 <StatItem label="Produk Terlaris" value={report.topProduct} color="#f59e0b" />
                             </div>
@@ -199,10 +199,10 @@ export default function ReportDetail() {
                         {/* Progress Bar Success Rate */}
                         <div style={{ backgroundColor: "#2d2d3d", borderRadius: "8px", padding: "24px" }}>
                             <div style={{ fontSize: "12px", color: "#aaa", textTransform: "uppercase", letterSpacing: "1px", fontWeight: 600, marginBottom: "16px" }}>
-                                Delivery Success Rate
+                                Tingkat Keberhasilan Pengiriman
                             </div>
                             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "14px" }}>
-                                <span>Delivered: {report.delivered}</span>
+                                <span>Terkirim: {report.delivered}</span>
                                 <span style={{ fontWeight: 700, color: Number(successRate) >= 90 ? "#10b981" : "#f59e0b" }}>{successRate}%</span>
                             </div>
                             <div style={{ backgroundColor: "#374151", borderRadius: "6px", height: "12px", overflow: "hidden" }}>
@@ -214,7 +214,7 @@ export default function ReportDetail() {
                                 }} />
                             </div>
                             <div style={{ display: "flex", justifyContent: "space-between", marginTop: "8px", fontSize: "12px", color: "#aaa" }}>
-                                <span>Canceled: {report.canceled}</span>
+                                <span>Dibatalkan: {report.canceled}</span>
                                 <span>Total: {report.orders}</span>
                             </div>
                         </div>
@@ -240,10 +240,10 @@ export default function ReportDetail() {
                                     vs {prevReport.month}
                                 </div>
                                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                                    <CompareRow label="Revenue" current={formatRupiah(report.revenue)} diff={revDiff} />
-                                    <CompareRow label="Orders" current={report.orders} diff={ordDiff} />
-                                    <CompareRow label="Delivered" current={report.delivered} diff={delDiff} />
-                                    <CompareRow label="Canceled" current={report.canceled} diff={canDiff} invertColor />
+                                    <CompareRow label="Pendapatan" current={formatRupiah(report.revenue)} diff={revDiff} />
+                                    <CompareRow label="Pesanan" current={report.orders} diff={ordDiff} />
+                                    <CompareRow label="Terkirim" current={report.delivered} diff={delDiff} />
+                                    <CompareRow label="Dibatalkan" current={report.canceled} diff={canDiff} invertColor />
                                 </div>
                             </div>
                         )}

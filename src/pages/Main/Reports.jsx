@@ -60,25 +60,25 @@ export default function Reports() {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "16px", marginBottom: "24px" }}>
                 <div style={{ backgroundColor: "#1e1e2e", borderRadius: "8px", padding: "20px", borderLeft: "4px solid #10b981" }}>
                     <div style={{ fontSize: "20px", fontWeight: 700, color: "#10b981" }}>{formatRupiah(summary.revenue)}</div>
-                    <div style={{ fontSize: "13px", color: "#aaa", marginTop: "4px" }}>Total Revenue</div>
+                    <div style={{ fontSize: "13px", color: "#aaa", marginTop: "4px" }}>Total Pendapatan</div>
                 </div>
                 <div style={{ backgroundColor: "#1e1e2e", borderRadius: "8px", padding: "20px", borderLeft: "4px solid #3b82f6" }}>
                     <div style={{ fontSize: "28px", fontWeight: 700, color: "#3b82f6" }}>{summary.orders}</div>
-                    <div style={{ fontSize: "13px", color: "#aaa", marginTop: "4px" }}>Total Orders</div>
+                    <div style={{ fontSize: "13px", color: "#aaa", marginTop: "4px" }}>Total Pesanan</div>
                 </div>
                 <div style={{ backgroundColor: "#1e1e2e", borderRadius: "8px", padding: "20px", borderLeft: "4px solid #8b5cf6" }}>
                     <div style={{ fontSize: "28px", fontWeight: 700, color: "#8b5cf6" }}>{summary.delivered}</div>
-                    <div style={{ fontSize: "13px", color: "#aaa", marginTop: "4px" }}>Total Delivered</div>
+                    <div style={{ fontSize: "13px", color: "#aaa", marginTop: "4px" }}>Total Terkirim</div>
                 </div>
                 <div style={{ backgroundColor: "#1e1e2e", borderRadius: "8px", padding: "20px", borderLeft: "4px solid #ef4444" }}>
                     <div style={{ fontSize: "28px", fontWeight: 700, color: "#ef4444" }}>{summary.canceled}</div>
-                    <div style={{ fontSize: "13px", color: "#aaa", marginTop: "4px" }}>Total Canceled</div>
+                    <div style={{ fontSize: "13px", color: "#aaa", marginTop: "4px" }}>Total Dibatalkan</div>
                 </div>
             </div>
 
             {/* Bar Chart Revenue */}
             <div className="panel-card" style={{ marginBottom: "24px" }}>
-                <div className="panel-title">Revenue per Bulan</div>
+                <div className="panel-title">Pendapatan per Bulan</div>
                 <div style={{ display: "flex", alignItems: "flex-end", gap: "8px", height: "160px", padding: "8px 0" }}>
                     {monthlySalesData.map((data) => (
                         <div key={data.month} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" }}>
@@ -169,11 +169,11 @@ export default function Reports() {
                             <thead>
                                 <tr style={{ backgroundColor: "#2d2d3d", borderBottom: "2px solid #444" }}>
                                     <th style={{ padding: "12px", textAlign: "left", fontWeight: 600 }}>Bulan</th>
-                                    <th style={{ padding: "12px", textAlign: "right", fontWeight: 600 }}>Revenue</th>
-                                    <th style={{ padding: "12px", textAlign: "right", fontWeight: 600 }}>Orders</th>
-                                    <th style={{ padding: "12px", textAlign: "right", fontWeight: 600 }}>Delivered</th>
-                                    <th style={{ padding: "12px", textAlign: "right", fontWeight: 600 }}>Canceled</th>
-                                    <th style={{ padding: "12px", textAlign: "right", fontWeight: 600 }}>Success Rate</th>
+                                    <th style={{ padding: "12px", textAlign: "right", fontWeight: 600 }}>Pendapatan</th>
+                                    <th style={{ padding: "12px", textAlign: "right", fontWeight: 600 }}>Pesanan</th>
+                                    <th style={{ padding: "12px", textAlign: "right", fontWeight: 600 }}>Terkirim</th>
+                                    <th style={{ padding: "12px", textAlign: "right", fontWeight: 600 }}>Dibatalkan</th>
+                                    <th style={{ padding: "12px", textAlign: "right", fontWeight: 600 }}>Tingkat Keberhasilan</th>
                                     <th style={{ padding: "12px", textAlign: "center", fontWeight: 600 }}>Detail</th>
                                 </tr>
                             </thead>
@@ -264,11 +264,11 @@ export default function Reports() {
                         <table style={{ width: "100%", borderCollapse: "collapse", backgroundColor: "#1e1e2e" }}>
                             <thead>
                                 <tr style={{ backgroundColor: "#2d2d3d", borderBottom: "2px solid #444" }}>
-                                    <th style={{ padding: "12px", textAlign: "left", fontWeight: 600 }}>Rank</th>
+                                    <th style={{ padding: "12px", textAlign: "left", fontWeight: 600 }}>Peringkat</th>
                                     <th style={{ padding: "12px", textAlign: "left", fontWeight: 600 }}>Produk</th>
                                     <th style={{ padding: "12px", textAlign: "left", fontWeight: 600 }}>Kategori</th>
                                     <th style={{ padding: "12px", textAlign: "right", fontWeight: 600 }}>Terjual</th>
-                                    <th style={{ padding: "12px", textAlign: "right", fontWeight: 600 }}>Revenue</th>
+                                    <th style={{ padding: "12px", textAlign: "right", fontWeight: 600 }}>Pendapatan</th>
                                 </tr>
                             </thead>
                             <tbody>
