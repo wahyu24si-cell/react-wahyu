@@ -40,7 +40,7 @@ export default function PromotionDetail() {
                         <p style={{ color: "#ef4444", marginBottom: "20px" }}>{error}</p>
                         <button
                             type="button"
-                            onClick={() => navigate("/promotions")}
+                            onClick={() => navigate("/admin/promotions")}
                             style={{ padding: "10px 20px", cursor: "pointer", backgroundColor: "#10b981", color: "white", border: "none", borderRadius: "4px", fontWeight: 600 }}
                         >
                             ← Back to Promotions
@@ -75,7 +75,7 @@ export default function PromotionDetail() {
                     <div className="panel-title">Promotion Detail</div>
                     <button
                         type="button"
-                        onClick={() => navigate("/promotions")}
+                        onClick={() => navigate("/admin/promotions")}
                         style={{ padding: "8px 16px", cursor: "pointer", backgroundColor: "#6b7280", color: "white", border: "none", borderRadius: "4px", fontWeight: 500 }}
                     >
                         ← Back to Promotions

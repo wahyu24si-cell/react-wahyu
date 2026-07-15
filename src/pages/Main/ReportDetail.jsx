@@ -62,7 +62,7 @@ export default function ReportDetail() {
                         <p style={{ color: "#ef4444", marginBottom: "20px" }}>{error}</p>
                         <button
                             type="button"
-                            onClick={() => navigate("/reports")}
+                            onClick={() => navigate("/admin/reports")}
                             style={{ padding: "10px 20px", cursor: "pointer", backgroundColor: "#10b981", color: "white", border: "none", borderRadius: "4px", fontWeight: 600 }}
                         >
                             ← Back to Reports
@@ -136,7 +136,7 @@ export default function ReportDetail() {
                         )}
                         <button
                             type="button"
-                            onClick={() => navigate("/reports")}
+                            onClick={() => navigate("/admin/reports")}
                             style={{ padding: "8px 16px", cursor: "pointer", backgroundColor: "#6b7280", color: "white", border: "none", borderRadius: "4px", fontWeight: 500 }}
                         >
                             ← Back to Reports

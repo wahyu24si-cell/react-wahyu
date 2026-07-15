@@ -85,7 +85,7 @@ export default function ProductDetail() {
                     <div id="dashboard-empty-state" style={{ textAlign: "center", padding: "40px" }}>
                         <p style={{ color: "#ef4444", marginBottom: "20px" }}>{error}</p>
                         <button 
-                            onClick={() => navigate("/products")}
+                            onClick={() => navigate("/admin/products")}
                             style={{
                                 padding: "10px 20px",
                                 cursor: "pointer",
@@ -128,7 +128,7 @@ export default function ProductDetail() {
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "30px" }}>
                     <div className="panel-title">Product Detail</div>
                     <button 
-                        onClick={() => navigate("/products")}
+                        onClick={() => navigate("/admin/products")}
                         style={{
                             padding: "8px 16px",
                             cursor: "pointer",
